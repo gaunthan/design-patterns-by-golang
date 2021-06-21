@@ -5,11 +5,11 @@ import "fmt"
 func ExampleState() {
 	context := NewContext()
 
-	input := []rune("Hello, world!")
-	context.ToUpper(input)
+	input := []rune("HELLO, world")
+	context.Transform(input)
 
 	fmt.Println(string(input))
 
 	// Output:
-	// HELLO, WORLD!
+	// HElLo, WoRlD
 }

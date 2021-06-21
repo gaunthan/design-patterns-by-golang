@@ -7,6 +7,8 @@ import (
 func init() {
 	BeginState = &beginState{}
 	EndState = &endState{}
+	ToUpperState = &toUpperState{}
+	ToLowerState = &toLowerState{}
 }
 
 type State interface {
@@ -14,8 +16,10 @@ type State interface {
 }
 
 var (
-	BeginState State
-	EndState   State
+	BeginState   State
+	EndState     State
+	ToUpperState State
+	ToLowerState State
 )
 
 type beginState struct{}
@@ -24,8 +28,27 @@ func (*beginState) handle(input []rune, index int) State {
 	if index >= len(input) {
 		return EndState
 	}
+	return ToUpperState
+}
+
+type toUpperState struct{}
+
+func (*toUpperState) handle(input []rune, index int) State {
+	if index >= len(input) {
+		return EndState
+	}
 	input[index] = unicode.ToUpper(input[index])
-	return BeginState
+	return ToLowerState
+}
+
+type toLowerState struct{}
+
+func (*toLowerState) handle(input []rune, index int) State {
+	if index >= len(input) {
+		return EndState
+	}
+	input[index] = unicode.ToLower(input[index])
+	return ToUpperState
 }
 
 type endState struct{}
